@@ -18,6 +18,14 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 Type 'q()' to quit R.
 
 > library(pomp)
+Welcome to pomp version 1.19!
+pomp version 2 is now available on https://kingaa.github.io/pomp/.
+This new version contains many improvements but is not backward compatible.
+To allow users time to modify their codes, 'pomp' version 2 will be provided as package 'pomp2' for a short while.
+
+Around the middle of 2019, 'pomp2' will be renamed 'pomp' version 2.1 and will be released to CRAN. Until then, 'pomp' versions < 2 will continue to be available.
+
+See the 'pomp version 2 upgrade guide' at https://kingaa.github.io/pomp/.
 > 
 > png(filename="demos-%02d.png",res=100)
 > 
@@ -67,7 +75,7 @@ Type 'q()' to quit R.
 > toc <- Sys.time()
 
 > print(toc - tic)
-Time difference of 0.003651142 secs
+Time difference of 0.005044699 secs
 
 > X <- reshape(X, dir = "wide", v.names = "X", timevar = "traj", 
 +     idvar = "time")
@@ -82,7 +90,7 @@ Time difference of 0.003651142 secs
 > toc <- Sys.time()
 
 > print(toc - tic)
-Time difference of 0.00266099 secs
+Time difference of 0.004209757 secs
 
 > x <- reshape(x, dir = "wide", v.names = c("Y", "X"), 
 +     timevar = "sim", idvar = "time")
@@ -105,7 +113,7 @@ Time difference of 0.00266099 secs
 > toc <- Sys.time()
 
 > print(toc - tic)
-Time difference of 0.3336473 secs
+Time difference of 0.4966025 secs
 
 > print(logmeanexp(sapply(pf, logLik), se = TRUE))
                    se 
@@ -200,7 +208,7 @@ Time difference of 0.3336473 secs
 > toc <- Sys.time()
 
 > print(toc - tic)
-Time difference of 0.002687216 secs
+Time difference of 0.005472183 secs
 
 > plot(incid ~ time, data = X, type = "l")
 
@@ -211,7 +219,7 @@ Time difference of 0.002687216 secs
 > toc <- Sys.time()
 
 > print(toc - tic)
-Time difference of 0.02151465 secs
+Time difference of 0.0413208 secs
 
 > plot(incid ~ time, data = x, col = as.factor(x$sim), 
 +     pch = 16)
@@ -227,7 +235,7 @@ Time difference of 0.02151465 secs
 > toc <- Sys.time()
 
 > print(toc - tic)
-Time difference of 6.460021 secs
+Time difference of 7.586212 secs
 Warning messages:
 1: in 'table_lookup': extrapolating at 1.934011e+03 
 2: in 'table_lookup': extrapolating at 1.934011e+03 
@@ -237,5 +245,5 @@ null device
           1 
 > 
 > print(packageVersion("pomp"))
-[1] '1.18.7.5'
+[1] '1.19'
 > 
