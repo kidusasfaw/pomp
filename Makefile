@@ -38,22 +38,17 @@ htmldocs: inst/doc/*.html
 vignettes: manual install
 	$(MAKE)	-C www/vignettes
 
-news: www/NEWS.html
-
 NEWS: inst/NEWS
 
 inst/NEWS: inst/NEWS.Rd
 	$(RCMD) Rdconv -t txt $^ -o $@
-
-www/NEWS.html: inst/NEWS.Rd
-	$(RCMD) Rdconv -t html inst/NEWS.Rd -o www/NEWS.html
 
 dist: NEWS $(PKGVERS).tar.gz
 
 $(PKGVERS).tar.gz: $(SOURCE)
 	$(RCMD) build --force --no-manual --resave-data --compact-vignettes=both --md5 .
 
-publish: dist manual news
+publish: dist manual
 	$(RSCRIPT) -e 'drat::insertPackage("$(PKGVERS).tar.gz",repodir="../www",action="prune")'
 	-$(RSCRIPT) -e 'drat::insertPackage("$(PKGVERS).tgz",repodir="../www",action="prune")'
 	-$(RSCRIPT) -e 'drat::insertPackage("$(PKGVERS).zip",repodir="../www",action="prune")'
@@ -78,11 +73,11 @@ qqcheck: dist
 	$(RCMD) check --library=check -o check --no-codoc --no-examples --no-vignettes --no-manual --no-tests $(PKGVERS).tar.gz
 
 xcheck: dist
-	mkdir -p check
+	mkdir -p check library
 	$(RCMD_ALT) check --no-stop-on-test-error --as-cran --library=library -o check $(PKGVERS).tar.gz
 
 xxcheck: xcheck
-	mkdir -p check
+	mkdir -p check library
 	$(REXE) -d "valgrind --tool=memcheck --track-origins=yes --leak-check=full" < check/$(PKG).Rcheck/$(PKG)-Ex.R 2>&1 | tee $(PKG)-Ex.Rout
 
 ycheck: dist
@@ -151,7 +146,7 @@ clean:
 	$(RM) -r check library
 	$(RM) src/*.o src/*.so src/symbols.rds vignettes/Rplots.*
 	$(RM) -r inst/doc/figure inst/doc/cache
+	$(RM) -r *-Ex.Rout *-Ex.timings *-Ex.pdf
 	$(RM) $(PKGVERS).tar.gz $(PKGVERS).zip $(PKGVERS).tgz $(PKG).pdf
 
 .SECONDARY:
-
